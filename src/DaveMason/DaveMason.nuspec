@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<package>
+  <metadata>
+    <id>DaveMason</id>
+    <version>1.0.0</version>
+    <title>Dave Mason</title>
+    <authors>Craig Noble</authors>
+    <owners>Dave Mason</owners>
+    <licenseUrl>http://opensource.org/licenses/MIT</licenseUrl>
+    <projectUrl>http://www.mentorwebblocks.com/</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Ditto-like Content Mapper for Umbraco, democratically named</description>
+    <releaseNotes></releaseNotes>
+    <copyright>Copyright 2019</copyright>
+    <tags>Umbraco Mapper</tags>
+  </metadata>
+  <files>
+	<file src="bin\Debug\DaveMason.dll" target="lib\net\DaveMason.dll" />
+  </files>
+</package>
