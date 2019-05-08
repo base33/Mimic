@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Umbraco.Core.Models;
 
-namespace Mapper.Context
+namespace DaveMason.Context
 {
     public class MapperContext
     {

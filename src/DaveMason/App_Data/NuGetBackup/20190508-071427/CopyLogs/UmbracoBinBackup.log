@@ -1,0 +1,36 @@
+
+-------------------------------------------------------------------------------
+   ROBOCOPY     ::     Robust File Copy for Windows                              
+-------------------------------------------------------------------------------
+
+  Started : 08 May 2019 07:14:28
+   Source : D:\Projects\DaveMason\src\DaveMason\bin\
+     Dest : D:\Projects\DaveMason\src\DaveMason\App_Data\NuGetBackup\20190508-071427\bin\
+
+    Files : *.*
+	    
+  Options : *.* /S /E /DCOPY:DA /COPY:DAT /R:1000000 /W:30 
+
+------------------------------------------------------------------------------
+
+	                   0	D:\Projects\DaveMason\src\DaveMason\bin\
+	  New Dir          5	D:\Projects\DaveMason\src\DaveMason\bin\Debug\
+	    New File  		    8704	DaveMason.dll  0%  100%  
+	    New File  		    2775	DaveMason.dll.config  0%  100%  
+	    New File  		   26112	DaveMason.pdb  0%  100%  
+	    New File  		   45416	Microsoft.Web.Infrastructure.dll  0%  100%  
+	    New File  		    1469	Microsoft.Web.Infrastructure.xml  0%  100%  
+
+------------------------------------------------------------------------------
+
+               Total    Copied   Skipped  Mismatch    FAILED    Extras
+    Dirs :         2         1         1         0         0         0
+   Files :         5         5         0         0         0         0
+   Bytes :    82.4 k    82.4 k         0         0         0         0
+   Times :   0:00:00   0:00:00                       0:00:00   0:00:00
+
+
+   Speed :             1340888 Bytes/sec.
+   Speed :              76.726 MegaBytes/min.
+   Ended : 08 May 2019 07:14:28
+

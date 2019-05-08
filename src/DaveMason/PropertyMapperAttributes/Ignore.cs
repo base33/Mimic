@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Umbraco.Core.Models;
 
-namespace Mapper.PropertyMapperAttributes
+namespace DaveMason.PropertyMapperAttributes
 {
     public class Ignore : PropertyMapperAttribute
     {

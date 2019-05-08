@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Mapper.Context;
+using DaveMason.Context;
+using DaveMason.Helpers;
 using Umbraco.Core.Models;
 
-namespace Mapper.PropertyMapperAttributes
+namespace DaveMason.PropertyMapperAttributes
 {
     public abstract class PropertyMapperAttribute : Attribute
     {
@@ -17,7 +18,7 @@ namespace Mapper.PropertyMapperAttributes
         {
             propertyName = !string.IsNullOrEmpty(propertyName) ? propertyName : Context.Property.Name;
 
-            return Content.Properties.FirstOrDefault(property => property.PropertyTypeAlias.ToLower() == propertyName.ToLower());
+            return new UmbracoPropertyLocator().GetClosestProperty(Content, propertyName);
         }
 
         public abstract object ProcessValue();

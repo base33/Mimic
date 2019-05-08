@@ -4,9 +4,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
+using Umbraco.Core;
 using Umbraco.Core.Models;
+using Umbraco.Web;
 
-namespace Mapper.PropertyMapperAttributes
+namespace DaveMason.PropertyMapperAttributes
 {
     public class SimpleType : PropertyMapperAttribute
     {
@@ -39,10 +42,17 @@ namespace Mapper.PropertyMapperAttributes
             if (property == null)
                 return null;
 
-            //if the property value is an IPublishedContent array and needs mapping to a custom List
-            if (property.Value is IEnumerable<IPublishedContent> && Context.Property.PropertyType.GenericTypeArguments[0] != typeof(IPublishedContent))
+            var propertyValue = property.Value;
+
+            if (propertyValue is Udi[])
             {
-                var propertyValueEnumerable = (IEnumerable<IPublishedContent>)property.Value;
+                propertyValue = ((Udi[]) propertyValue).Select(c => new UmbracoHelper(UmbracoContext.Current).TypedContent(c)).ToList();
+            }
+
+            //if the property value is an IPublishedContent array and needs mapping to a custom List
+            if (propertyValue is IEnumerable<IPublishedContent> && (Context.Property.PropertyType.GenericTypeArguments.Length > 0 && Context.Property.PropertyType.GenericTypeArguments[0] != typeof(IPublishedContent)))
+            {
+                var propertyValueEnumerable = (IEnumerable<IPublishedContent>)propertyValue;
                 var value = (IList)Activator.CreateInstance(Context.Property.PropertyType);
                 foreach (IPublishedContent item in propertyValueEnumerable)
                 {
@@ -50,12 +60,16 @@ namespace Mapper.PropertyMapperAttributes
                 }
                 return value;
             }
-            else
+            else if (propertyValue is IEnumerable<IPublishedContent> && Context.Property.PropertyType == typeof(IPublishedContent))
             {
-                return property.Value;
+                return ((IEnumerable<IPublishedContent>)propertyValue).FirstOrDefault();
+            }
+            else if (propertyValue is HtmlString)
+            {
+                return propertyValue.ToString();
             }
 
-            return null;
+            return propertyValue;
         }
     }
 }
