@@ -60,15 +60,18 @@ namespace DaveMason.PropertyMapperAttributes
                 }
                 return value;
             }
+            //else if the property value is an array but the class property is a single item
             else if (propertyValue is IEnumerable<IPublishedContent> && Context.Property.PropertyType == typeof(IPublishedContent))
             {
                 return ((IEnumerable<IPublishedContent>)propertyValue).FirstOrDefault();
             }
+            //if the property value is a HtmlString, convert to string
             else if (propertyValue is HtmlString)
             {
                 return propertyValue.ToString();
             }
 
+            //otherwise return the untouched value
             return propertyValue;
         }
     }

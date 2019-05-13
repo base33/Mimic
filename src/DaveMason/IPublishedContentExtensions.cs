@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using DaveMason.Context;
 using DaveMason.PropertyMapperAttributes;
 using Umbraco.Core.Models;
+using Umbraco.Core.Models.PublishedContent;
 using Umbraco.Core.Persistence.Mappers;
 using Umbraco.Web;
 

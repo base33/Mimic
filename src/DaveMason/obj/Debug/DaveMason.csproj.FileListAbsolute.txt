@@ -215,3 +215,4 @@ D:\Projects\DaveMason\src\DaveMason\bin\Debug\Umbraco.Web.UI.xml
 D:\Projects\DaveMason\src\DaveMason\bin\Debug\UmbracoExamine.xml
 D:\Projects\DaveMason\src\DaveMason\obj\Debug\DaveMason.dll
 D:\Projects\DaveMason\src\DaveMason\obj\Debug\DaveMason.pdb
+D:\Projects\DaveMason\src\DaveMason\obj\Debug\DaveMason.csprojResolveAssemblyReference.cache

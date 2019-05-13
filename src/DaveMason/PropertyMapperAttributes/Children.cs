@@ -24,7 +24,7 @@ namespace DaveMason.PropertyMapperAttributes
             }
 
 
-            return null;
+            return list;
         }
     }
 }
