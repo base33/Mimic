@@ -265,14 +265,21 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CodeGenerator\HtmlPrinter.cs" />
+    <Compile Include="Controllers\DaveMasonApiController.cs" />
     <Compile Include="Context\MapperContext.cs" />
+    <Compile Include="Extentions\StringExtentions.cs" />
+    <Compile Include="Extentions\UmbracoHelperExtensions.cs" />
     <Compile Include="Helpers\UmbracoPropertyLocator.cs" />
+    <Compile Include="Models\DaveMasonNestedContent.cs" />
+    <Compile Include="Models\DaveMasonPropertyClass.cs" />
+    <Compile Include="Models\DaveMasonPropertyType.cs" />
     <Compile Include="PropertyMapperAttributes\PropertyMapperAttribute.cs" />
     <Compile Include="PropertyMapperAttributes\Children.cs" />
     <Compile Include="PropertyMapperAttributes\Ignore.cs" />
     <Compile Include="PropertyMapperAttributes\Self.cs" />
     <Compile Include="PropertyMapperAttributes\SimpleType.cs" />
-    <Compile Include="IPublishedContentExtensions.cs" />
+    <Compile Include="Extentions\IPublishedContentExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PropertyMapperResolver.cs" />
   </ItemGroup>
