@@ -1,5 +1,4 @@
-﻿using DaveMason.Extentions;
-using DaveMason.Web.Models;
+﻿using DaveMason.Web.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
