@@ -1,0 +1,5 @@
+﻿{
+    javascript: [
+        '~/App_Plugins/davemason/davemason.controller.js'
+    ]
+}

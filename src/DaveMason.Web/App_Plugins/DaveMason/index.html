@@ -1,0 +1,84 @@
+﻿
+<style>
+    .dm-loader {
+        display: inline-block;
+        width: 80px;
+        height: 80px;
+    }
+
+        .dm-loader:after {
+            content: " ";
+            display: block;
+            width: 64px;
+            height: 64px;
+            margin: 8px;
+            border-radius: 50%;
+            border: 6px solid #fff;
+            border-color: #ccc transparent #ccc transparent;
+            animation: dm-loader 1.2s linear infinite;
+        }
+
+    @keyframes dm-loader {
+        0% {
+            transform: rotate(0deg);
+        }
+
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+
+
+    .dm-pln {
+        color: #000;
+    }
+
+    .dm-std {
+        color: #000;
+    }
+
+    .dm-kwd {
+        color: #0000ff;
+    }
+
+    .dm-typ {
+        color: #2B91AF;
+    }
+
+    .dm-wrapper {
+        float: left;
+        width: 350px;
+        padding: 10px;
+        margin-right: 15px;
+    }
+
+    .dm-dt {
+        cursor: pointer;
+        margin-bottom: 5px;
+        display: block;
+        text-align: left;
+    }
+
+    pre {
+        white-space: pre-line;
+        padding: 2px;
+        border: 1px solid #888;
+    }
+</style>
+
+<div ng-controller="davemason">
+
+    <button ng-click="loadDocumentTypes()" class="btn btn-primary">Load Document Types</button>
+
+    <div>
+        <div class="dm-wrapper">
+            <div ng-repeat="documentType in documentTypes">
+                <span class="btn dm-dt" draggable="true" ng-click="generateCode(documentType.Id)">{{documentType.Name}} - ({{documentType.Alias}})</span>
+            </div>
+        </div>
+
+        <div ng-show="loading" class="dm-loader"></div>
+        <pre ng-show="!loading" ng-bind-html="documentTypeCode"></pre>
+    </div>
+
+</div>
