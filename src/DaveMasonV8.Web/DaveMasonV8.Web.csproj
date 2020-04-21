@@ -325,7 +325,13 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\BlogController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TestModels\Interfaces\IContent.cs" />
+    <Compile Include="TestModels\Interfaces\INavigationSEO.cs" />
+    <Compile Include="TestModels\Models\Blog.cs" />
+    <Compile Include="TestModels\Models\Blogpost.cs" />
+    <Compile Include="TestModels\Models\Everything.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="config\imageprocessor\security.config" />
@@ -366,6 +372,9 @@
       <Project>{25cb8188-cf70-407e-80b1-ecc880598ae8}</Project>
       <Name>DaveMasonV8</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Views\Blog\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
