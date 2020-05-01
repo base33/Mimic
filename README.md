@@ -4,7 +4,7 @@ Using custom models allows for more flexibility when creating smaller granular m
 
 ##Usage
 Here is an example of a class representing a blog post:
-```
+```csharp
 namespace MyWebsite.Models
 {
     public class Blogpost : INavigationSEO
@@ -21,7 +21,7 @@ namespace MyWebsite.Models
 ```
 
 Here is an example of how you could use Mimic to convert children of the current page into instances of Blogpost:
-```
+```csharp
 using Mimic;
 using System.Web.Mvc;
 using Umbraco.Web.Mvc;
@@ -50,7 +50,7 @@ namespace MyWebsite.Controllers
 You may want to map a property from Umbraco and convert it into something custom.  This may be because Umbraco isn't giving you the value in the exact format you'd like, or because Mimic isn't converting it into the type that you want.
 
 To write your own mapper is super simple:
-```
+```csharp
 public class MyCustomPropertyAttribute : PropertyMapperAttribute
 {
     protected int MyCustomValue;
@@ -79,7 +79,7 @@ From within your custom Attribute, you have access to a context that gives acces
 * Property = PropertyInfo for the property on the class this attribute is related to
 
 Now you can use this custom property mapper like so:
-```
+```csharp
 namespace MyWebsite.Models
 {
     public class Blogpost : INavigationSEO
