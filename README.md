@@ -104,6 +104,9 @@ The credentials for Umbraco are:
 Username: admin@admin.com	
 Password: qwe12345678
 
+# How different is it to Ditto?
+At face value, I built this to be as close to the way we work with Ditto in Umbraco 7.  However, internally I taken my own approach.  Both because Ditto had been causing me issues when previewing content in Umbraco's preview mode, but also it was a learning experience for myself.  But Ditto is the inspiration for this project.
+
 # Contributing or raising issues
 Please use the issues tracker within this repository.  If you find a bug, please report it or submit a pull request.
 
