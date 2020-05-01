@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,6 +10,7 @@ using System.Web;
 using Umbraco.Core;
 using Umbraco.Core.Models;
 using Umbraco.Web;
+using Umbraco.Core.Logging;
 
 namespace DaveMason.PropertyMapperAttributes
 {
@@ -49,14 +52,39 @@ namespace DaveMason.PropertyMapperAttributes
                 propertyValue = ((Udi[]) propertyValue).Select(c => new UmbracoHelper(UmbracoContext.Current).TypedContent(c)).ToList();
             }
 
+            if (propertyValue is JObject && Context.Property.PropertyType != typeof(JObject))
+            {
+                if(Context.Property.PropertyType == typeof(string))
+                {
+                    propertyValue = propertyValue.ToString();
+                }
+                else if (Context.Property.PropertyType.IsClass)
+                {
+                    propertyValue = JsonConvert.DeserializeObject(propertyValue.ToString(), Context.Property.PropertyType);
+                }
+            }
+
             //if the property value is an IPublishedContent array and needs mapping to a custom List
             if (propertyValue is IEnumerable<IPublishedContent> && (Context.Property.PropertyType.GenericTypeArguments.Length > 0 && Context.Property.PropertyType.GenericTypeArguments[0] != typeof(IPublishedContent)))
             {
                 var propertyValueEnumerable = (IEnumerable<IPublishedContent>)propertyValue;
-                var value = (IList)Activator.CreateInstance(Context.Property.PropertyType);
+                //var value = (IList)Activator.CreateInstance(typeof(List<>).MakeGenericType(Context.Property.PropertyType));
+
+                var value = (IList)Activator.CreateInstance(typeof(List<>).MakeGenericType(Context.Property.PropertyType.GenericTypeArguments[0]));
+
+                var listType = typeof(List<>).MakeGenericType(Context.Property.PropertyType);
+                var list = (IList)Activator.CreateInstance(listType);
+
+
                 foreach (IPublishedContent item in propertyValueEnumerable)
                 {
-                    value.Add(item.As(Context.Property.PropertyType.GenericTypeArguments[0]));
+                    var arg = Context.Property.PropertyType.GenericTypeArguments[0];
+                    
+                    var typedItem = item.As(arg);
+                  
+                    value.Add(typedItem);
+
+                    //value.Add(item.As(Context.Property.PropertyType.GenericTypeArguments[0]));
                 }
                 return value;
             }
@@ -71,6 +99,23 @@ namespace DaveMason.PropertyMapperAttributes
                 return propertyValue.ToString();
             }
 
+            if (propertyValue != null)
+            {
+                if (propertyValue.GetType() != Context.Property.PropertyType && !propertyValue.GetType().Inherits(Context.Property.PropertyType))
+                {
+                    var type = propertyValue.GetType();
+                    if (type == typeof(GuidUdi))
+                    {
+                        LogHelper.Warn(this.GetType(), "Trying to map unpublished content. Id: " + Context.Content.Id + ". Property: " + Context.Property.Name);
+                    }
+                    else
+                    {
+                        LogHelper.Warn(this.GetType(), "Trying to map to wrong type. Id: " + Context.Content.Id + ". Property: " + Context.Property.Name + ". Wrong Type: " + Context.Property.PropertyType);
+                    }
+
+                    return Context.Property.PropertyType.GetType().GetDefaultValue();
+                }
+            }
             //otherwise return the untouched value
             return propertyValue;
         }

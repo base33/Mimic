@@ -1,0 +1,10 @@
+packages
+NuGetBackup
+/src/DaveMason.Web/App_Data/TEMP
+.vs
+obj
+bin
+cache
+Logs
+App_Browsers
+/src/DaveMason.Web/App_Data/umbraco.config
