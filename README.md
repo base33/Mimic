@@ -96,6 +96,17 @@ namespace MyWebsite.Models
 
 You will then be able to completely intercept the mapping of this property.  Even better, you can also run this against properties that extend upon Umbraco and do not exist on an Umbraco document type.
 
+# Built-in Property Mapper Attributes
+```csharp
+[Ignore] // allows you to tell Mimic to ignore this property
+[Children] // allows you to populate a list from the children of the current IPublishedContent model
+[Self] // allows you to populate a property by applying the current IPublishedContent model to it
+```
+
+# The code creation panel!
+When you install Mimic, it comes with a dashboard tab located under 'Settings' that can generate the code you can use for specific document types.  This makes it super simple to get the baseline for your classes and then modify them from there.
+![Image of Code Generator(https://our.umbraco.com/media/wiki/282168/637239440630560855_mimic-code-generatorpng.png)
+
 
 # How to run the project
 Mimic.Web is just a sandbox project used for testing
