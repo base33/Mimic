@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<package>
+  <metadata>
+    <id>Our.Umbraco.Mimic</id>
+    <version>1.0.0</version>
+    <title>Mimic</title>
+    <authors>Craig Noble</authors>
+    <owners>Craig Noble</owners>
+    <licenseUrl>http://opensource.org/licenses/MIT</licenseUrl>
+    <projectUrl>https://github.com/base33/Mimic</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Content Mapper for Umbraco.  Ditto inspired.</description>
+    <releaseNotes></releaseNotes>
+    <copyright>Copyright 2020</copyright>
+    <tags>Umbraco Content Mapper</tags>
+  </metadata>
+  <files>
+	<file src="..\src\mimic\bin\release\mimic.dll" target="lib\net\Our.Umbraco.Mimic.dll" />
+  </files>
+</package>
