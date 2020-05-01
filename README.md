@@ -61,6 +61,7 @@ public class MyCustomPropertyAttribute : PropertyMapperAttribute
     {
         //automatically get the closest property 
         //based as the current class property name
+        //... or resolve it yourself (passed in via attribute parameter?)
         var property = GetClosestProperty();
         
         //process umbraco property value
