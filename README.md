@@ -1,5 +1,6 @@
 # What is Mimic and why would I use it?
-Mimic is a Custom Model content mapper from IPublishedContent or ModelsBuilder models to custom views.  
+Mimic is a Custom Model content mapper for Umbraco 8 that allows your to map IPublishedContent or ModelsBuilder models to custom class models.  
+
 Using custom models allows for more flexibility when creating smaller granular models that are not to be dictated by Document Type structure or architecture, but also provide simpler ways to extend upon them without the need for partial classes.
 
 ## Usage
@@ -102,3 +103,12 @@ Mimic.Web is just a sandbox project used for testing
 The credentials for Umbraco are:
 Username: admin@admin.com	
 Password: qwe12345678
+
+# Contributing or raising issues
+Please use the issues tracker within this repository.  If you find a bug, please report it or submit a pull request.
+
+# Feature requests
+Please use the issue tracker within this repository.  If you have built any cool custom property mappers that you think will be useful for the community, please feel free to raise an issue and submit a pull request!
+
+# How to contact me
+Tweet me at @craignoble1989
