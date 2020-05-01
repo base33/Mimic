@@ -1,8 +1,8 @@
-#What is Mimic and why would I use it?
+# What is Mimic and why would I use it?
 Mimic is a Custom Model content mapper from IPublishedContent or ModelsBuilder models to custom views.  
 Using custom models allows for more flexibility when creating smaller granular models that are not to be dictated by Document Type structure or architecture, but also provide simpler ways to extend upon them without the need for partial classes.
 
-##Usage
+## Usage
 Here is an example of a class representing a blog post:
 ```csharp
 namespace MyWebsite.Models
@@ -42,7 +42,7 @@ namespace MyWebsite.Controllers
 }
 ```
 
-#How to write a custom property mapper
+# How to write a custom property mapper
 You may want to map a property from Umbraco and convert it into something custom.  This may be because Umbraco isn't giving you the value in the exact format you'd like, or because Mimic isn't converting it into the type that you want.
 
 To write your own mapper is super simple:
@@ -95,7 +95,7 @@ namespace MyWebsite.Models
 You will then be able to completely intercept the mapping of this property.  Even better, you can also run this against properties that extend upon Umbraco and do not exist on an Umbraco document type.
 
 
-#How to run the project
+# How to run the project
 Mimic.Web is just a sandbox project used for testing
 
 The credentials for Umbraco are:
