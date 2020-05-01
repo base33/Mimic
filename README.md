@@ -31,10 +31,6 @@ namespace MyWebsite.Controllers
 {
     public class BlogController : RenderMvcController
     {
-        public BlogController()
-        {
-        }
-
         // GET: Blog
         public ActionResult Index()
         {      
