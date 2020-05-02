@@ -243,6 +243,7 @@
     <Compile Include="Extentions\StringExtentions.cs" />
     <Compile Include="Extentions\UmbracoHelperExtensions.cs" />
     <Compile Include="Factory\LambdaFactory.cs" />
+    <Compile Include="Factory\MsilBuilderWithCachingWithGeneric.cs" />
     <Compile Include="Helpers\UmbracoPropertyLocator.cs" />
     <Compile Include="IPublishedContentExtensions.cs" />
     <Compile Include="Models\MimicNestedContent.cs" />
