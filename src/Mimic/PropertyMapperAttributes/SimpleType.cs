@@ -80,7 +80,7 @@ namespace Mimic.PropertyMapperAttributes
                 {
                     var arg = Context.Property.PropertyType.GenericTypeArguments[0];
 
-                    var typedItem = item.As(arg);
+                    var typedItem = new object();// item.As(arg);
 
                     value.Add(typedItem);
 

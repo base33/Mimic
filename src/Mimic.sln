@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mimic", "Mimic\Mimic.csproj
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mimic.Web", "Mimic.Web\Mimic.Web.csproj", "{5DEA4D7F-5A93-478F-8DF9-D8476E92793F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mimic.Benchmarks", "Mimic.Benchmarks\Mimic.Benchmarks.csproj", "{8D24366F-EB77-48B8-8C91-A39970B91F0F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{5DEA4D7F-5A93-478F-8DF9-D8476E92793F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5DEA4D7F-5A93-478F-8DF9-D8476E92793F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5DEA4D7F-5A93-478F-8DF9-D8476E92793F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8D24366F-EB77-48B8-8C91-A39970B91F0F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8D24366F-EB77-48B8-8C91-A39970B91F0F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8D24366F-EB77-48B8-8C91-A39970B91F0F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8D24366F-EB77-48B8-8C91-A39970B91F0F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

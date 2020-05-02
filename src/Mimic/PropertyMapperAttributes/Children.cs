@@ -20,7 +20,7 @@ namespace Mimic.PropertyMapperAttributes
             IList list = (IList)Activator.CreateInstance(Context.Property.PropertyType);
             foreach (var child in Content.Children)
             {
-                list.Add(child.As(Context.Property.PropertyType.GenericTypeArguments[0]));
+                //list.Add(child.As(Context.Property.PropertyType.GenericTypeArguments[0]));
             }
 
 
