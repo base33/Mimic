@@ -118,6 +118,21 @@ Password: qwe12345678
 # How different is it to Ditto?
 At face value, I built this to be as close to the way we work with Ditto in Umbraco 7.  However, internally I taken my own approach.  Both because Ditto had been causing me issues when previewing content in Umbraco's preview mode, but also it was a learning experience for myself.  But Ditto is the inspiration for this project.
 
+# Versions
+## 1.0 Initial Release
+
+## 1.1
+* News up instances using new T() instead of Activator
+* Can now dynamically call map using a cached MSIL As<> caller for children or where type is unknown
+
+# Performance enhancements
+Benchmark test is to map 100 instances of IPublishedContent with 3 children each also requiring to be mapped.  In total 400 mappings required to complete the test.
+
+| Version        | Average MS    | Standard Deviation       |
+| ------------- |:-------------:| -----:|
+| 1.0      | 82.22 ms | 2.342 ms |
+| 1.1      | 78.92 ms      |  1.710 ms |
+
 # Contributing or raising issues
 Please use the issues tracker within this repository.  If you find a bug, please report it or submit a pull request.
 
