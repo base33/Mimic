@@ -17,14 +17,14 @@ namespace Mimic.Web.Controllers
 
         // GET: Blog
         public ActionResult Index()
-        {      
+        {
             var blogs = CurrentPage.Children;
             var typedBlog = CurrentPage.As<Everything>();
 
             var typedBlogs = blogs.As<Blogpost>();
 
 
-            var breakpoint = typedBlog;            
+            var breakpoint = typedBlog;
 
             return View(CurrentPage);
         }

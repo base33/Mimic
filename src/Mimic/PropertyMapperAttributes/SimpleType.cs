@@ -42,8 +42,8 @@ namespace Mimic.PropertyMapperAttributes
         {
             var property = GetClosestProperty();
 
-            if (property == null)
-                return null;
+            if (property == null || property.Value() == null)
+                return Context.Property.Type.GetDefaultValue();// .GetMethod("GetDefaultGeneric").MakeGenericMethod(t).Invoke(this, null);
 
             var propertyValue = property.GetValue();
 

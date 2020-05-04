@@ -13,7 +13,8 @@ namespace Mimic
 {
     public static class IPublishedContentExtensions
     {
-        private static readonly ConcurrentDictionary<string, (TypeAccessor TypeAccessor,IEnumerable<Member> MemberSet)> TypeDescriptors = new ConcurrentDictionary<string, (TypeAccessor TypeAccessor, IEnumerable<Member> MemberSet)>();
+        private static readonly ConcurrentDictionary<string, (TypeAccessor TypeAccessor,IEnumerable<(Member Member, PropertyMapperAttribute Converter)> MemberSet)> TypeDescriptors = 
+            new ConcurrentDictionary<string, (TypeAccessor TypeAccessor, IEnumerable<(Member, PropertyMapperAttribute)> MemberSet)>();
 
         public static T As<T>(this IPublishedContent content) where T : new()
         {
@@ -26,29 +27,28 @@ namespace Mimic
 
             T instance = new T();
 
-            string typeName = nameof(Type);
+            string typeName = typeof(T).FullName;
 
             if (!TypeDescriptors.ContainsKey(typeName))
             {
                 var typeAccessor = TypeAccessor.Create(type);
                 var memberSet = typeAccessor.GetMembers().Where(p => p.CanWrite);
-                TypeDescriptors.TryAdd(typeName, (typeAccessor, memberSet));
+                var memberToAttributeMap = memberSet.Select(m => (m, ResolveMapper(content, type, m)));
+                TypeDescriptors.TryAdd(typeName, (typeAccessor, memberToAttributeMap));
             }
 
             var typeDescriptor = TypeDescriptors[typeName];
 
-            foreach (var property in typeDescriptor.MemberSet)
+            foreach (var member in typeDescriptor.MemberSet)
             {
-                context.Property = property;
-
-                var mapper = ResolveMapper(content, type, property);
-
-                if (mapper is Ignore)
+                if (member.Converter is Ignore)
                     continue;
 
-                mapper.Context = context;
+                context.Property = member.Member;
 
-                var value = mapper.ProcessValue();
+                member.Converter.Context = context;
+
+                var value = member.Converter.ProcessValue();
 
                 typeDescriptor.TypeAccessor[instance, context.Property.Name] = value;
             }

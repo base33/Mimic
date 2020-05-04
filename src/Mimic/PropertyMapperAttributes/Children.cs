@@ -15,10 +15,10 @@ namespace Mimic.PropertyMapperAttributes
         {
             if (Context.Property.Type.GenericTypeArguments[0] == typeof (IPublishedContent))
             {
-                return Content.Children;
+                return Content.Children.ToList();
             }
 
-            IList list = (IList)Activator.CreateInstance(Context.Property.Type);
+            IList list = (IList)MsilBuilderWithCachingWithGeneric.Build(Context.Property.Type);
             foreach (var child in Content.Children)
             {
                 var typedChild = MimicAsDynamicCaller.GetAsForType(Context.Property.Type.GenericTypeArguments[0])(child);
