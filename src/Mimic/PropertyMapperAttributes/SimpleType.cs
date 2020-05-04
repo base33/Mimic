@@ -47,38 +47,40 @@ namespace Mimic.PropertyMapperAttributes
 
             var propertyValue = property.GetValue();
 
-            if (propertyValue is Udi[])
+            if(propertyValue.GetType() == Context.Property.Type)
+            {
+                return propertyValue;
+            }
+            else if (propertyValue is Udi[])
             {
                 propertyValue = ((Udi[])propertyValue).Select(c => Current.UmbracoHelper.Content(c)).ToList();
             }
-
-            if (propertyValue is JObject && Context.Property.PropertyType != typeof(JObject))
+            else if (propertyValue is JObject && Context.Property.Type != typeof(JObject))
             {
-                if (Context.Property.PropertyType == typeof(string))
+                if (Context.Property.Type == typeof(string))
                 {
                     propertyValue = propertyValue.ToString();
                 }
-                else if (Context.Property.PropertyType.IsClass)
+                else if (Context.Property.Type.IsClass)
                 {
-                    propertyValue = JsonConvert.DeserializeObject(propertyValue.ToString(), Context.Property.PropertyType);
+                    propertyValue = JsonConvert.DeserializeObject(propertyValue.ToString(), Context.Property.Type);
                 }
             }
-
             //if the property value is an IPublishedContent array and needs mapping to a custom List
-            if (propertyValue is IEnumerable<IPublishedContent> && (Context.Property.PropertyType.GenericTypeArguments.Length > 0 && Context.Property.PropertyType.GenericTypeArguments[0] != typeof(IPublishedContent)))
+            else if (propertyValue is IEnumerable<IPublishedContent> && (Context.Property.Type.GenericTypeArguments.Length > 0 && Context.Property.Type.GenericTypeArguments[0] != typeof(IPublishedContent)))
             {
                 var propertyValueEnumerable = (IEnumerable<IPublishedContent>)propertyValue;
                 //var value = (IList)Activator.CreateInstance(typeof(List<>).MakeGenericType(Context.Property.PropertyType));
 
-                var value = (IList)Activator.CreateInstance(typeof(List<>).MakeGenericType(Context.Property.PropertyType.GenericTypeArguments[0]));
+                var value = (IList)Activator.CreateInstance(typeof(List<>).MakeGenericType(Context.Property.Type.GenericTypeArguments[0]));
 
-                var listType = typeof(List<>).MakeGenericType(Context.Property.PropertyType);
+                var listType = typeof(List<>).MakeGenericType(Context.Property.Type);
                 var list = (IList)Activator.CreateInstance(listType);
 
 
                 foreach (IPublishedContent item in propertyValueEnumerable)
                 {
-                    var arg = Context.Property.PropertyType.GenericTypeArguments[0];
+                    var arg = Context.Property.Type.GenericTypeArguments[0];
 
                     var typedItem = new object();// item.As(arg);
 
@@ -89,7 +91,7 @@ namespace Mimic.PropertyMapperAttributes
                 return value;
             }
             //else if the property value is an array but the class property is a single item
-            else if (propertyValue is IEnumerable<IPublishedContent> && Context.Property.PropertyType == typeof(IPublishedContent))
+            else if (propertyValue is IEnumerable<IPublishedContent> && Context.Property.Type == typeof(IPublishedContent))
             {
                 return ((IEnumerable<IPublishedContent>)propertyValue).FirstOrDefault();
             }
@@ -101,7 +103,7 @@ namespace Mimic.PropertyMapperAttributes
 
             if (propertyValue != null)
             {
-                if (propertyValue.GetType() != Context.Property.PropertyType && !propertyValue.GetType().Inherits(Context.Property.PropertyType))
+                if (propertyValue.GetType() != Context.Property.Type && !propertyValue.GetType().Inherits(Context.Property.Type))
                 {
                     var type = propertyValue.GetType();
                     if (type == typeof(GuidUdi))
@@ -110,10 +112,10 @@ namespace Mimic.PropertyMapperAttributes
                     }
                     else
                     {
-                        Current.Logger.Warn(this.GetType(), "Trying to map to wrong type. Id: " + Context.Content.Id + ". Property: " + Context.Property.Name + ". Wrong Type: " + Context.Property.PropertyType);
+                        Current.Logger.Warn(this.GetType(), "Trying to map to wrong type. Id: " + Context.Content.Id + ". Property: " + Context.Property.Name + ". Wrong Type: " + Context.Property.Type);
                     }
 
-                    return Context.Property.PropertyType.GetType().GetDefaultValue();
+                    return Context.Property.Type.GetType().GetDefaultValue();
                 }
             }
             //otherwise return the untouched value

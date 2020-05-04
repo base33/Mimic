@@ -1,6 +1,7 @@
 ﻿using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Jobs;
 using Mimic.Benchmarks.Base;
+using Mimic.PropertyMapperAttributes;
 using Moq;
 using System;
 using System.Collections.Generic;
@@ -21,13 +22,37 @@ namespace Mimic.Benchmarks
         {
             base.SetUp();
 
-            var mock = new Mock<IPublishedContent>();
-            SetupPropertyValue(mock, "firstName", "Bob");
-            SetupPropertyValue(mock, "lastName", "Smith");
-            SetupPropertyValue(mock, "age", 14);
-            SetupPropertyValue(mock, "webSiteUrl", "https://www.google.com");
+            var parent = new Mock<IPublishedContent>();
+            var parentPropertyList = new List<IPublishedProperty>();
+            SetupPropertyValue(parent, "firstName", "Bob", parentPropertyList);
+            SetupPropertyValue(parent, "lastName", "Smith", parentPropertyList);
+            SetupPropertyValue(parent, "age", 14, parentPropertyList);
+            SetupPropertyValue(parent, "webSiteUrl", "https://www.google.com", parentPropertyList);
+            parent.Setup(e => e.Properties).Returns(parentPropertyList);
 
-            TestContent = mock.Object;
+            var children = new List<IPublishedContent>();
+
+            var child1 = new Mock<IPublishedContent>();
+            var child1PropertyList = new List<IPublishedProperty>();
+            SetupPropertyValue(child1, "firstName", "Bob", child1PropertyList);
+            SetupPropertyValue(child1, "lastName", "Smith", child1PropertyList);
+            SetupPropertyValue(child1, "age", 14, child1PropertyList);
+            SetupPropertyValue(child1, "webSiteUrl", "https://www.google.com", child1PropertyList);
+            child1.Setup(e => e.Properties).Returns(child1PropertyList);
+
+            var child2 = new Mock<IPublishedContent>();
+            var child2PropertyList = new List<IPublishedProperty>();
+            SetupPropertyValue(child2, "firstName", "Bob", child2PropertyList);
+            SetupPropertyValue(child2, "lastName", "Smith", child2PropertyList);
+            SetupPropertyValue(child2, "age", 14, child2PropertyList);
+            SetupPropertyValue(child2, "webSiteUrl", "https://www.google.com", child2PropertyList);
+            child2.Setup(e => e.Properties).Returns(child2PropertyList);
+
+            children.Add(child1.Object);
+            children.Add(child2.Object);
+            parent.Setup(p => p.Children).Returns(children);
+
+            TestContent = parent.Object;
         }
 
         [Benchmark]
@@ -46,5 +71,8 @@ namespace Mimic.Benchmarks
         public string LastName { get; set; }
         public int Age { get; set; }
         public string WebsiteUrl { get; set; }
+
+        [Children]
+        public List<Person> Children { get; set; }
     }
 }

@@ -70,13 +70,15 @@ namespace Mimic.Benchmarks.Base
         //    this.MembershipHelper = new MembershipHelper(this.HttpContext.Object, this.memberCache.Object, membershipProvider, Mock.Of<RoleProvider>(), memberService.Object, memberTypeService, Mock.Of<IUserService>(), Mock.Of<IPublicAccessService>(), AppCaches.NoCache, Mock.Of<Umbraco.Core.Logging.ILogger>());
         //}
 
-        public void SetupPropertyValue(Mock<IPublishedContent> publishedContentMock, string alias, object value, string culture = null, string segment = null)
+        public void SetupPropertyValue(Mock<IPublishedContent> publishedContentMock, string alias, object value, List<IPublishedProperty> properties)
         {
             var property = new Mock<IPublishedProperty>();
             property.Setup(x => x.Alias).Returns(alias);
-            property.Setup(x => x.GetValue(culture, segment)).Returns(value);
-            property.Setup(x => x.HasValue(culture, segment)).Returns(value != null);
+            property.Setup(x => x.GetValue(null, null)).Returns(value);
+            property.Setup(x => x.HasValue(null, null)).Returns(value != null);
             publishedContentMock.Setup(x => x.GetProperty(alias)).Returns(property.Object);
+
+            properties.Add(property.Object);
         }
     }
 }

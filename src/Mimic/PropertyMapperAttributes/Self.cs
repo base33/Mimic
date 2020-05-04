@@ -10,8 +10,7 @@ namespace Mimic.PropertyMapperAttributes
     {
         public override object ProcessValue()
         {
-            return null;
-            //return Content.As(Context.Property.PropertyType);
+            return Factory.MimicAsDynamicCaller.GetAsForType(Context.Property.Type)(Context.Content);
         }
     }
 }

@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using FastMember;
 using Mimic.Context;
 using Mimic.Factory;
 using Mimic.PropertyMapperAttributes;
@@ -11,8 +13,9 @@ namespace Mimic
 {
     public static class IPublishedContentExtensions
     {
+        private static readonly ConcurrentDictionary<string, (TypeAccessor TypeAccessor,IEnumerable<Member> MemberSet)> TypeDescriptors = new ConcurrentDictionary<string, (TypeAccessor TypeAccessor, IEnumerable<Member> MemberSet)>();
 
-        public static T As<T>(this IPublishedContent content)
+        public static T As<T>(this IPublishedContent content) where T : new()
         {
             var type = typeof (T);
 
@@ -21,9 +24,20 @@ namespace Mimic
 
             var context = new MapperContext { Content = content };
 
-            T instance = MsilBuilderWithCachingWithGeneric<T>.Build();
+            T instance = new T();
 
-            foreach (var property in type.GetProperties(BindingFlags.Public | BindingFlags.Instance).Where(p => p.CanWrite))
+            string typeName = nameof(Type);
+
+            if (!TypeDescriptors.ContainsKey(typeName))
+            {
+                var typeAccessor = TypeAccessor.Create(type);
+                var memberSet = typeAccessor.GetMembers().Where(p => p.CanWrite);
+                TypeDescriptors.TryAdd(typeName, (typeAccessor, memberSet));
+            }
+
+            var typeDescriptor = TypeDescriptors[typeName];
+
+            foreach (var property in typeDescriptor.MemberSet)
             {
                 context.Property = property;
 
@@ -36,23 +50,23 @@ namespace Mimic
 
                 var value = mapper.ProcessValue();
 
-                property.SetValue(instance, value);
+                typeDescriptor.TypeAccessor[instance, context.Property.Name] = value;
             }
 
             return instance;
         }
 
-        public static List<T> As<T>(this IEnumerable<IPublishedContent> contents)
+        public static List<T> As<T>(this IEnumerable<IPublishedContent> contents) where T : new()
         {
             var type = typeof(T);
 
             return contents.Select(content => As<T>(content)).ToList();
         }
 
-        private static PropertyMapperAttribute ResolveMapper(IPublishedContent content, Type type, PropertyInfo property)
+        private static PropertyMapperAttribute ResolveMapper(IPublishedContent content, Type type, Member property)
         {
             //resolve by attribute
-            var attribute = property.GetCustomAttributes().FirstOrDefault(a => a is PropertyMapperAttribute);
+            var attribute = property.GetAttribute(typeof(PropertyMapperAttribute), true);
             if (attribute != null)
             {
                 return (PropertyMapperAttribute)attribute;

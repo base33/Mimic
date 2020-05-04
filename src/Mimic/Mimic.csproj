@@ -45,6 +45,9 @@
     <Reference Include="Examine, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Examine.1.0.1\lib\net452\Examine.dll</HintPath>
     </Reference>
+    <Reference Include="FastMember, Version=1.5.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\FastMember.1.5.0\lib\net461\FastMember.dll</HintPath>
+    </Reference>
     <Reference Include="HtmlAgilityPack, Version=1.8.14.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
       <HintPath>..\packages\HtmlAgilityPack.1.8.14\lib\Net45\HtmlAgilityPack.dll</HintPath>
     </Reference>
@@ -242,7 +245,7 @@
     <Compile Include="Dashboard\DaveMasonDashboard.cs" />
     <Compile Include="Extentions\StringExtentions.cs" />
     <Compile Include="Extentions\UmbracoHelperExtensions.cs" />
-    <Compile Include="Factory\LambdaFactory.cs" />
+    <Compile Include="Factory\MimicAsDynamicCaller.cs" />
     <Compile Include="Factory\MsilBuilderWithCachingWithGeneric.cs" />
     <Compile Include="Helpers\UmbracoPropertyLocator.cs" />
     <Compile Include="IPublishedContentExtensions.cs" />
