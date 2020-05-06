@@ -15,7 +15,7 @@
     <tags>Umbraco Content Mapper</tags>
   </metadata>
   <files>
-	  <file src="..\src\mimic\bin\release\mimic.dll" target="lib\net\Our.Umbraco.Mimic.dll" />
+	  <file src="..\src\mimic\bin\release\mimic.dll" target="lib\net\Mimic.dll" />
     <file src="..\src\mimic.web\app_plugins\mimic\**\*" target="content\app_plugins\mimic\" />
   </files>
 </package>
