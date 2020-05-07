@@ -30,7 +30,7 @@ namespace Mimic.Controllers
         public IEnumerable<IContentType> GetDocumentTypes()
         {
             var documentTypes = Current.Services.ContentTypeService.GetAll();
-            return documentTypes.Where(documentType => documentType.PropertyGroups.Any()).OrderBy(x => x.Name);
+            return documentTypes.OrderBy(x => x.Name);
         }
 
         public string GetDocumentTypeCode(int documentTypeId)
