@@ -8,7 +8,7 @@ namespace Mimic.PropertyMapperAttributes
 {
     public class Self : PropertyMapperAttribute
     {
-        public override object ProcessValue()
+        public override object ProcessValue(bool isElement = false)
         {
             return Content.As(Context.Property.PropertyType);
         }

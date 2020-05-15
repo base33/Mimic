@@ -13,5 +13,6 @@ namespace Mimic.Context
     {
         public PropertyInfo Property { get; internal set; }
         public IPublishedContent Content { get; set; }
+        public IPublishedElement Element { get; set; }
     }
 }

@@ -14,5 +14,10 @@ namespace Mimic.Helpers
         {
             return content.Properties.FirstOrDefault(property => property.Alias.ToLower() == propertyName.ToLower());
         }
+
+        public IPublishedProperty GetClosestProperty(IPublishedElement element, string propertyName = "")
+        {
+            return element.Properties.FirstOrDefault(property => property.Alias.ToLower() == propertyName.ToLower());
+        }
     }
 }

@@ -10,7 +10,7 @@ namespace Mimic.PropertyMapperAttributes
 {
     public class Ignore : PropertyMapperAttribute
     {
-        public override object ProcessValue()
+        public override object ProcessValue(bool isElement = false)
         {
             return null;
         }

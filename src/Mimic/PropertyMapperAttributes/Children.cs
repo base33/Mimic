@@ -10,7 +10,7 @@ namespace Mimic.PropertyMapperAttributes
 {
     public class Children : PropertyMapperAttribute
     {
-        public override object ProcessValue()
+        public override object ProcessValue(bool isElement = false)
         {
             if (Context.Property.PropertyType.GenericTypeArguments[0] == typeof (IPublishedContent))
             {
