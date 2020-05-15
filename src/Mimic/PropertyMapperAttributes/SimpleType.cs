@@ -16,11 +16,11 @@ namespace Mimic.PropertyMapperAttributes
 {
     public class SimpleType : PropertyMapperAttribute
     {
-        public override object ProcessValue()
+        public override object ProcessValue(bool isElement = false)
         {
             var value = ResolveStictProperty();
 
-            return value ?? ResolveUmbracoProperty();
+            return value ?? ResolveUmbracoProperty(isElement);
         }
 
         protected object ResolveStictProperty()
@@ -38,9 +38,18 @@ namespace Mimic.PropertyMapperAttributes
             return null;
         }
 
-        protected object ResolveUmbracoProperty()
+        protected object ResolveUmbracoProperty(bool isElement = false)
         {
-            var property = GetClosestProperty();
+            IPublishedProperty property = null;
+
+            if (isElement)
+            {
+                property = GetClosestElement();
+            }
+            else
+            {
+                property = GetClosestProperty();
+            }
 
             if (property == null)
                 return null;
@@ -83,8 +92,6 @@ namespace Mimic.PropertyMapperAttributes
                     var typedItem = item.As(arg);
 
                     value.Add(typedItem);
-
-                    //value.Add(item.As(Context.Property.PropertyType.GenericTypeArguments[0]));
                 }
                 return value;
             }
@@ -97,6 +104,29 @@ namespace Mimic.PropertyMapperAttributes
             else if (propertyValue is HtmlString)
             {
                 return propertyValue.ToString();
+            }
+            else if (propertyValue is IEnumerable<IPublishedElement> &&
+               (Context.Property.PropertyType.GenericTypeArguments.Length > 0 && Context.Property.PropertyType.GenericTypeArguments[0] != typeof(IPublishedElement))
+               &&
+               !(propertyValue is IEnumerable<IPublishedContent>)
+               )
+            {
+                var propertyValueEnumerable = (IEnumerable<IPublishedElement>)propertyValue;
+                var value = (IList)Activator.CreateInstance(typeof(List<>).MakeGenericType(Context.Property.PropertyType.GenericTypeArguments[0]));
+
+                var listType = typeof(List<>).MakeGenericType(Context.Property.PropertyType);
+                var list = (IList)Activator.CreateInstance(listType);
+
+
+                foreach (IPublishedElement item in propertyValueEnumerable)
+                {
+                    var arg = Context.Property.PropertyType.GenericTypeArguments[0];
+
+                    var typedItem = item.As(arg);
+
+                    value.Add(typedItem);
+                }
+                return value;
             }
 
             if (propertyValue != null)

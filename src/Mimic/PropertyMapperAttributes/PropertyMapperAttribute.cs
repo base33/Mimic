@@ -13,6 +13,7 @@ namespace Mimic.PropertyMapperAttributes
     {
         public MapperContext Context { get; set; }
         public IPublishedContent Content => Context.Content;
+        public IPublishedElement Element => Context.Element;
 
         protected IPublishedProperty GetClosestProperty(string propertyName = "")
         {
@@ -21,6 +22,13 @@ namespace Mimic.PropertyMapperAttributes
             return new UmbracoPropertyLocator().GetClosestProperty(Content, propertyName);
         }
 
-        public abstract object ProcessValue();
+        protected IPublishedProperty GetClosestElement(string propertyName = "")
+        {
+            propertyName = !string.IsNullOrEmpty(propertyName) ? propertyName : Context.Property.Name;
+
+            return new UmbracoPropertyLocator().GetClosestProperty(Element, propertyName);
+        }
+
+        public abstract object ProcessValue(bool isElement = false);
     }
 }
