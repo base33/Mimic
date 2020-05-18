@@ -11,12 +11,12 @@ using Umbraco.Core.Models.PublishedContent;
 
 namespace Mimic
 {
-    public static class IPublishedContentExtensions
+    public static class IPublishedElementExtensions
     {
         private static readonly ConcurrentDictionary<string, (TypeAccessor TypeAccessor,IEnumerable<(Member Member, PropertyMapperAttribute Converter)> MemberSet)> TypeDescriptors = 
             new ConcurrentDictionary<string, (TypeAccessor TypeAccessor, IEnumerable<(Member, PropertyMapperAttribute)> MemberSet)>();
 
-        public static T As<T>(this IPublishedContent content) where T : new()
+        public static T As<T>(this IPublishedElement content) where T : new()
         {
             var type = typeof (T);
 
@@ -33,7 +33,7 @@ namespace Mimic
             {
                 var typeAccessor = TypeAccessor.Create(type);
                 var memberSet = typeAccessor.GetMembers().Where(p => p.CanWrite);
-                var memberToAttributeMap = memberSet.Select(m => (m, ResolveMapper(content, type, m)));
+                var memberToAttributeMap = memberSet.Select(m => (m, ResolveMapper(m)));
                 TypeDescriptors.TryAdd(typeName, (typeAccessor, memberToAttributeMap));
             }
 
@@ -63,7 +63,7 @@ namespace Mimic
             return contents.Select(content => As<T>(content)).ToList();
         }
 
-        private static PropertyMapperAttribute ResolveMapper(IPublishedContent content, Type type, Member property)
+        private static PropertyMapperAttribute ResolveMapper(Member property)
         {
             //resolve by attribute
             var attribute = property.GetAttribute(typeof(PropertyMapperAttribute), true);

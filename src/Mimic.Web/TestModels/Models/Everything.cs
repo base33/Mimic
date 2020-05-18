@@ -16,6 +16,8 @@ namespace Mimic.Web.TestModels.Models
         public IEnumerable<IPublishedContent> MultinodeTree { get; set; }
         public decimal NumberDec { get; set; }
 
+        public IEnumerable<Feature> Features { get; set; }
+
         [Children]
         public List<Blogpost> Children { get; set; }
     }

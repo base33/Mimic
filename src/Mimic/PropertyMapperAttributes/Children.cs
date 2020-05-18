@@ -13,13 +13,19 @@ namespace Mimic.PropertyMapperAttributes
     {
         public override object ProcessValue()
         {
+            var parent = Content as IPublishedContent;
+
             if (Context.Property.Type.GenericTypeArguments[0] == typeof (IPublishedContent))
             {
-                return Content.Children.ToList();
+                return parent.Children.ToList();
             }
 
             IList list = (IList)MsilBuilderWithCachingWithGeneric.Build(Context.Property.Type);
-            foreach (var child in Content.Children)
+
+            if (list == null)
+                return list;
+
+            foreach (var child in parent.Children)
             {
                 var typedChild = MimicAsDynamicCaller.GetAsForType(Context.Property.Type.GenericTypeArguments[0])(child);
                 list.Add(typedChild);

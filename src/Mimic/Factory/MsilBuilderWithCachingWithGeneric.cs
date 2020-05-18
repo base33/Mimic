@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,7 @@ namespace Mimic.Factory
     public static class MsilBuilderWithCachingWithGeneric
     {
         private static ConcurrentDictionary<Type, Func<object>> PrecompiledSingle = new ConcurrentDictionary<Type, Func<object>>();
-        private static ConcurrentDictionary<Type, Func<object>> PrecompiledList = new ConcurrentDictionary<Type, Func<object>>();
+        private static ConcurrentDictionary<Type, Func<IList>> PrecompiledList = new ConcurrentDictionary<Type, Func<IList>>();
 
         public static object Build(Type type)
         {
@@ -50,7 +51,7 @@ namespace Mimic.Factory
             ilGenerator.Emit(OpCodes.Newobj, emptyConstructor);
             ilGenerator.Emit(OpCodes.Ret);
 
-            var func = (Func<List<object>>)dynamicMethod.CreateDelegate(typeof(Func<List<object>>));
+            var func = (Func<IList>)dynamicMethod.CreateDelegate(typeof(Func<>).MakeGenericType(listType));
 
             PrecompiledList.TryAdd(type, func);
 

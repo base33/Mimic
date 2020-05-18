@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Mimic.Factory;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections;
@@ -25,14 +26,19 @@ namespace Mimic.PropertyMapperAttributes
 
         protected object ResolveStictProperty()
         {
-            switch (Context.Property.Name)
+            var content = Content as IPublishedContent;
+
+            if (content != null)
             {
-                case "Id":
-                    return Content.Id;
-                case "Name":
-                    return Content.Name;
-                case "Url":
-                    return Content.Url;
+                switch (Context.Property.Name)
+                {
+                    case "Id":
+                        return content.Id;
+                    case "Name":
+                        return content.Name;
+                    case "Url":
+                        return content.Url;
+                }
             }
 
             return null;
@@ -67,33 +73,33 @@ namespace Mimic.PropertyMapperAttributes
                 }
             }
             //if the property value is an IPublishedContent array and needs mapping to a custom List
-            else if (propertyValue is IEnumerable<IPublishedContent> && (Context.Property.Type.GenericTypeArguments.Length > 0 && Context.Property.Type.GenericTypeArguments[0] != typeof(IPublishedContent)))
+            else if (((propertyValue as IEnumerable<IPublishedElement>) != null) 
+                && Context.Property.Type.GenericTypeArguments.Length > 0 
+                && (Context.Property.Type.GenericTypeArguments[0] != typeof(IPublishedElement)
+                && Context.Property.Type.GenericTypeArguments[0] != typeof(IPublishedContent)))
             {
-                var propertyValueEnumerable = (IEnumerable<IPublishedContent>)propertyValue;
-                //var value = (IList)Activator.CreateInstance(typeof(List<>).MakeGenericType(Context.Property.PropertyType));
+                var propertyValueEnumerable = (IEnumerable<IPublishedElement>)propertyValue;
 
-                var value = (IList)Activator.CreateInstance(typeof(List<>).MakeGenericType(Context.Property.Type.GenericTypeArguments[0]));
+                var list = (IList)MsilBuilderWithCachingWithGeneric.BuildList(Context.Property.Type.GenericTypeArguments[0]);
 
-                var listType = typeof(List<>).MakeGenericType(Context.Property.Type);
-                var list = (IList)Activator.CreateInstance(listType);
-
-
-                foreach (IPublishedContent item in propertyValueEnumerable)
+                foreach (IPublishedElement item in propertyValueEnumerable)
                 {
                     var arg = Context.Property.Type.GenericTypeArguments[0];
 
-                    var typedItem = new object();// item.As(arg);
+                    var typedItem = MimicAsDynamicCaller.GetAsForType(arg)(item);
 
-                    value.Add(typedItem);
-
-                    //value.Add(item.As(Context.Property.PropertyType.GenericTypeArguments[0]));
+                    list.Add(typedItem);
                 }
-                return value;
+                return list;
             }
             //else if the property value is an array but the class property is a single item
             else if (propertyValue is IEnumerable<IPublishedContent> && Context.Property.Type == typeof(IPublishedContent))
             {
                 return ((IEnumerable<IPublishedContent>)propertyValue).FirstOrDefault();
+            }
+            else if (propertyValue is IEnumerable<IPublishedElement> && Context.Property.Type == typeof(IPublishedElement))
+            {
+                return ((IEnumerable<IPublishedElement>)propertyValue).FirstOrDefault();
             }
             //if the property value is a HtmlString, convert to string
             else if (propertyValue is HtmlString)
@@ -106,13 +112,14 @@ namespace Mimic.PropertyMapperAttributes
                 if (propertyValue.GetType() != Context.Property.Type && !propertyValue.GetType().Inherits(Context.Property.Type))
                 {
                     var type = propertyValue.GetType();
+                    var content = Content as IPublishedContent;
                     if (type == typeof(GuidUdi))
                     {
-                        Current.Logger.Warn(this.GetType(), "Trying to map unpublished content. Id: " + Context.Content.Id + ". Property: " + Context.Property.Name);
+                        Current.Logger.Warn(this.GetType(), "Trying to map unpublished content. Id: " + (content?.Id ?? 0) + ". Property: " + Context.Property.Name);
                     }
                     else
                     {
-                        Current.Logger.Warn(this.GetType(), "Trying to map to wrong type. Id: " + Context.Content.Id + ". Property: " + Context.Property.Name + ". Wrong Type: " + Context.Property.Type);
+                        Current.Logger.Warn(this.GetType(), "Trying to map to wrong type. Id: " + (content?.Id ?? 0) + ". Property: " + Context.Property.Name + ". Wrong Type: " + Context.Property.Type);
                     }
 
                     return Context.Property.Type.GetType().GetDefaultValue();

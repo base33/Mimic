@@ -242,13 +242,13 @@
     <Compile Include="CodeGenerator\HtmlPrinter.cs" />
     <Compile Include="Context\MapperContext.cs" />
     <Compile Include="Controllers\MimicApiController.cs" />
-    <Compile Include="Dashboard\DaveMasonDashboard.cs" />
+    <Compile Include="Dashboard\MimicDashboard.cs" />
     <Compile Include="Extentions\StringExtentions.cs" />
     <Compile Include="Extentions\UmbracoHelperExtensions.cs" />
     <Compile Include="Factory\MimicAsDynamicCaller.cs" />
     <Compile Include="Factory\MsilBuilderWithCachingWithGeneric.cs" />
     <Compile Include="Helpers\UmbracoPropertyLocator.cs" />
-    <Compile Include="IPublishedContentExtensions.cs" />
+    <Compile Include="IPublishedElementExtensions.cs" />
     <Compile Include="Models\MimicNestedContent.cs" />
     <Compile Include="Models\MimicPropertyClass.cs" />
     <Compile Include="Models\MimicPropertyType.cs" />

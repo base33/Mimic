@@ -5,6 +5,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Reflection.Emit;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using Umbraco.Core.Models.PublishedContent;
@@ -13,9 +14,10 @@ namespace Mimic.Factory
 {
     public static class MimicAsDynamicCaller
     {
-        private static ConcurrentDictionary<Type, Func<IPublishedContent, object>> Precompiled = new ConcurrentDictionary<Type, Func<IPublishedContent, object>>();
+        private static ConcurrentDictionary<Type, Func<IPublishedElement, object>> Precompiled = new ConcurrentDictionary<Type, Func<IPublishedElement, object>>();
 
-        public static Func<IPublishedContent, object> GetAsForType(Type type)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Func<IPublishedElement, object> GetAsForType(Type type)
         {
             if (Precompiled.ContainsKey(type))
             {
@@ -23,12 +25,12 @@ namespace Mimic.Factory
             }
 
             var source = Expression.Parameter(
-                typeof(IPublishedContent), "source");
+                typeof(IPublishedElement), "source");
 
             var call = Expression.Call(
-                typeof(IPublishedContentExtensions), "As", new Type[] { type }, source);
+                typeof(IPublishedElementExtensions), "As", new Type[] { type }, source);
 
-            var compiled = (Func<IPublishedContent, object>)Expression.Lambda(call, source).Compile();
+            var compiled = (Func<IPublishedElement, object>)Expression.Lambda(call, source).Compile();
 
             Precompiled.TryAdd(type, compiled);
 

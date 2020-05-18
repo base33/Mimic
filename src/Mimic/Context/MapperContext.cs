@@ -13,6 +13,6 @@ namespace Mimic.Context
     public class MapperContext
     {
         public Member Property { get; internal set; }
-        public IPublishedContent Content { get; set; }
+        public IPublishedElement Content { get; set; }
     }
 }
