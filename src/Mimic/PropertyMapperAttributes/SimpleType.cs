@@ -53,7 +53,7 @@ namespace Mimic.PropertyMapperAttributes
 
             var propertyValue = property.GetValue();
 
-            if(propertyValue.GetType() == Context.Property.Type)
+            if (propertyValue.GetType() == Context.Property.Type || propertyValue.GetType().Inherits(Context.Property.Type))
             {
                 return propertyValue;
             }
@@ -91,6 +91,11 @@ namespace Mimic.PropertyMapperAttributes
                     list.Add(typedItem);
                 }
                 return list;
+            }
+            else if ((propertyValue.GetType() == typeof(IPublishedElement) || propertyValue.GetType().Inherits(typeof(IPublishedElement))) &&
+                (Context.Property.Type != typeof(IPublishedElement)) || !Context.Property.Type.Inherits(typeof(IPublishedElement)))
+            {
+                return MimicAsDynamicCaller.GetAsForType(Context.Property.Type)((IPublishedElement)propertyValue);
             }
             //else if the property value is an array but the class property is a single item
             else if (propertyValue is IEnumerable<IPublishedContent> && Context.Property.Type == typeof(IPublishedContent))

@@ -10,10 +10,10 @@ namespace Mimic.Web.TestModels.Models
     public class Everything
     {
         public bool Checkbox { get; set; }
-        public IPublishedElement ContentPicker { get; set; }
+        public Everything ContentPicker { get; set; }
         public DateTime DateAndTime { get; set; }
         public object Maps { get; set; }
-        public IEnumerable<IPublishedContent> MultinodeTree { get; set; }
+        public IEnumerable<IPublishedElement> MultinodeTree { get; set; }
         public decimal NumberDec { get; set; }
 
         public IEnumerable<Feature> Features { get; set; }
