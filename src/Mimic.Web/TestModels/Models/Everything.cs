@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Mimic.PropertyMapperAttributes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -14,5 +15,10 @@ namespace Mimic.Web.TestModels.Models
         public object Maps { get; set; }
         public IEnumerable<IPublishedContent> MultinodeTree { get; set; }
         public decimal NumberDec { get; set; }
+
+        public IEnumerable<Feature> Features { get; set; }
+
+        [Children]
+        public List<Blogpost> Children { get; set; }
     }
 }

@@ -10,7 +10,7 @@ namespace Mimic.Helpers
 {
     internal class UmbracoPropertyLocator
     {
-        public IPublishedProperty GetClosestProperty(IPublishedContent content, string propertyName = "")
+        public IPublishedProperty GetClosestProperty(IPublishedElement content, string propertyName = "")
         {
             return content.Properties.FirstOrDefault(property => property.Alias.ToLower() == propertyName.ToLower());
         }

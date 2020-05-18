@@ -17,8 +17,8 @@ using Umbraco.Core.Models.PublishedContent;
 using Umbraco.Web;
 using Umbraco.ModelsBuilder.Embedded;
 
-[assembly:ModelsBuilderAssembly(PureLive = true, SourceHash = "6c0dad9b6038938a")]
-[assembly:System.Reflection.AssemblyVersion("0.0.0.1")]
+[assembly:ModelsBuilderAssembly(PureLive = true, SourceHash = "f130acd5e8e5feab")]
+[assembly:System.Reflection.AssemblyVersion("0.0.0.2")]
 
 namespace Umbraco.Web.PublishedModels
 {
@@ -907,6 +907,13 @@ namespace Umbraco.Web.PublishedModels
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder", "8.5.4")]
 		[ImplementPropertyType("disqusShortname")]
 		public string DisqusShortname => this.Value<string>("disqusShortname");
+
+		///<summary>
+		/// Features
+		///</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder", "8.5.4")]
+		[ImplementPropertyType("features")]
+		public global::System.Collections.Generic.IEnumerable<global::Umbraco.Web.PublishedModels.Feature> Features => this.Value<global::System.Collections.Generic.IEnumerable<global::Umbraco.Web.PublishedModels.Feature>>("features");
 
 		///<summary>
 		/// How many posts should be shown?

@@ -12,7 +12,7 @@ namespace Mimic.PropertyMapperAttributes
     public abstract class PropertyMapperAttribute : Attribute
     {
         public MapperContext Context { get; set; }
-        public IPublishedContent Content => Context.Content;
+        public IPublishedElement Content => Context.Content;
 
         protected IPublishedProperty GetClosestProperty(string propertyName = "")
         {

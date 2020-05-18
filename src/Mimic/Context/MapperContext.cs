@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FastMember;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -11,7 +12,7 @@ namespace Mimic.Context
 {
     public class MapperContext
     {
-        public PropertyInfo Property { get; internal set; }
-        public IPublishedContent Content { get; set; }
+        public Member Property { get; internal set; }
+        public IPublishedElement Content { get; set; }
     }
 }

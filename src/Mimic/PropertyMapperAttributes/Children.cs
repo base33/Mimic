@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Mimic.Factory;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,15 +13,22 @@ namespace Mimic.PropertyMapperAttributes
     {
         public override object ProcessValue()
         {
-            if (Context.Property.PropertyType.GenericTypeArguments[0] == typeof (IPublishedContent))
+            var parent = Content as IPublishedContent;
+
+            if (Context.Property.Type.GenericTypeArguments[0] == typeof (IPublishedContent))
             {
-                return Content.Children;
+                return parent.Children.ToList();
             }
 
-            IList list = (IList)Activator.CreateInstance(Context.Property.PropertyType);
-            foreach (var child in Content.Children)
+            IList list = (IList)MsilBuilderWithCachingWithGeneric.Build(Context.Property.Type);
+
+            if (list == null)
+                return list;
+
+            foreach (var child in parent.Children)
             {
-                list.Add(child.As(Context.Property.PropertyType.GenericTypeArguments[0]));
+                var typedChild = MimicAsDynamicCaller.GetAsForType(Context.Property.Type.GenericTypeArguments[0])(child);
+                list.Add(typedChild);
             }
 
 

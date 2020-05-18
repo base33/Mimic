@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Umbraco.Core.Models.PublishedContent;
 using Umbraco.Web;
 using Umbraco.Web.Mvc;
 
@@ -17,14 +18,14 @@ namespace Mimic.Web.Controllers
 
         // GET: Blog
         public ActionResult Index()
-        {      
+        {
             var blogs = CurrentPage.Children;
             var typedBlog = CurrentPage.As<Everything>();
 
             var typedBlogs = blogs.As<Blogpost>();
 
 
-            var breakpoint = typedBlog;            
+            var breakpoint = typedBlog;
 
             return View(CurrentPage);
         }
