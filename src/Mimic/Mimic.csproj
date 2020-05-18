@@ -258,7 +258,6 @@
     <Compile Include="PropertyMapperAttributes\PropertyMapperAttribute.cs" />
     <Compile Include="PropertyMapperAttributes\Self.cs" />
     <Compile Include="PropertyMapperAttributes\SimpleType.cs" />
-    <Compile Include="PropertyMapperResolver.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

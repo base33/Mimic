@@ -16,7 +16,7 @@ namespace Mimic.Factory
     {
         private static ConcurrentDictionary<Type, Func<IPublishedElement, object>> Precompiled = new ConcurrentDictionary<Type, Func<IPublishedElement, object>>();
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        
         public static Func<IPublishedElement, object> GetAsForType(Type type)
         {
             if (Precompiled.ContainsKey(type))

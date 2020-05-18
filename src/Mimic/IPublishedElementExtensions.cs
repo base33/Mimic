@@ -3,6 +3,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using FastMember;
 using Mimic.Context;
 using Mimic.Factory;
@@ -62,7 +63,7 @@ namespace Mimic
 
             return contents.Select(content => As<T>(content)).ToList();
         }
-
+        
         private static PropertyMapperAttribute ResolveMapper(Member property)
         {
             //resolve by attribute

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -14,7 +15,7 @@ namespace Mimic.Factory
     {
         private static ConcurrentDictionary<Type, Func<object>> PrecompiledSingle = new ConcurrentDictionary<Type, Func<object>>();
         private static ConcurrentDictionary<Type, Func<IList>> PrecompiledList = new ConcurrentDictionary<Type, Func<IList>>();
-
+        
         public static object Build(Type type)
         {
             if (PrecompiledSingle.ContainsKey(type))
@@ -35,7 +36,7 @@ namespace Mimic.Factory
 
             return func();
         }
-
+        
         public static object BuildList(Type type)
         {
             if (PrecompiledList.ContainsKey(type))
