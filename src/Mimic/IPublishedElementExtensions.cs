@@ -9,6 +9,7 @@ using Mimic.Context;
 using Mimic.Factory;
 using Mimic.PropertyMapperAttributes;
 using NPoco.Expressions;
+using Umbraco.Core;
 using Umbraco.Core.Models.PublishedContent;
 
 namespace Mimic
@@ -18,7 +19,9 @@ namespace Mimic
         private static readonly ConcurrentDictionary<string, (TypeAccessor TypeAccessor,IEnumerable<(Member Member, PropertyMapperAttribute Converter)> MemberSet)> TypeDescriptors = 
             new ConcurrentDictionary<string, (TypeAccessor TypeAccessor, IEnumerable<(Member, PropertyMapperAttribute)> MemberSet)>();
 
-        public static T As<T>(this IPublishedElement content) where T : new()
+        private static readonly ConcurrentDictionary<string, Func<object>> Factories = new ConcurrentDictionary<string, Func<object>>();
+
+        public static T As<T>(this IPublishedElement content) where T : class, new()
         {
             var type = typeof(T);
 
@@ -27,23 +30,30 @@ namespace Mimic
 
             var context = new MapperContext { Content = content };
 
-            var constructor = type.GetConstructors().FirstOrDefault(c =>
+            if(!Factories.ContainsKey(type.FullName))
             {
-                var param = c.GetParameters();
-                if (param.Length == 1 && param[0].ParameterType == typeof(IPublishedContent))
-                    return true;
+                var constructor = type.GetConstructors().FirstOrDefault(c =>
+                {
+                    var param = c.GetParameters();
+                    if (param.Length == 1 && param[0].ParameterType == typeof(IPublishedContent))
+                        return true;
 
-                return false;
-            });
+                    return false;
+                });
 
-            Func<T> make = constructor != null ?
-                new Func<T>(() => (T)constructor.Invoke(new[] { (IPublishedContent)content })) :
-                new Func<T>(() => new T());
+                Func<T> factory = constructor != null ?
+                    new Func<T>(() => (T)constructor.Invoke(new[] { (IPublishedContent)content })) :
+                    new Func<T>(() => new T());
 
-            return As(content, make);
+                Factories.TryAdd(type.FullName, factory);
+            }
+
+            var make = Factories[type.FullName];
+
+            return As(content, make as Func<T>);
         }
 
-        public static T As<T>(this IPublishedElement content, Func<T> createNewInstance) where T : new()
+        public static T As<T>(this IPublishedElement content, Func<T> createNewInstance) where T : class, new()
         {
             var type = typeof(T);
 
@@ -54,7 +64,7 @@ namespace Mimic
 
             T instance = createNewInstance();
 
-            string typeName = typeof(T).FullName;
+            string typeName = type.FullName;
 
             if (!TypeDescriptors.ContainsKey(typeName))
             {
@@ -83,7 +93,7 @@ namespace Mimic
             return instance;
         }
 
-        public static List<T> As<T>(this IEnumerable<IPublishedContent> contents) where T : new()
+        public static List<T> As<T>(this IEnumerable<IPublishedContent> contents) where T : class, new()
         {
             var type = typeof(T);
 

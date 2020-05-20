@@ -9,7 +9,7 @@ namespace Mimic
 {
     public static class UmbracoHelperExtensions
     {
-        public static T MappedTypedContent<T>(this UmbracoHelper helper, int id) where T : new()
+        public static T MappedTypedContent<T>(this UmbracoHelper helper, int id) where T : class, new()
         {
             return helper.Content(id).As<T>();
         }
