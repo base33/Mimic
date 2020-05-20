@@ -53,6 +53,10 @@ namespace Mimic.PropertyMapperAttributes
 
             var propertyValue = property.GetValue();
 
+            if(Context.Property.Type == typeof(string))
+            {
+                return propertyValue.ToString();
+            }
             if (propertyValue.GetType() == Context.Property.Type || propertyValue.GetType().Inherits(Context.Property.Type))
             {
                 return propertyValue;
@@ -93,7 +97,7 @@ namespace Mimic.PropertyMapperAttributes
                 return list;
             }
             else if ((propertyValue.GetType() == typeof(IPublishedElement) || propertyValue.GetType().Inherits(typeof(IPublishedElement))) &&
-                (Context.Property.Type != typeof(IPublishedElement)) || !Context.Property.Type.Inherits(typeof(IPublishedElement)))
+                (Context.Property.Type != typeof(IPublishedElement)) && !Context.Property.Type.Inherits(typeof(IPublishedElement)))
             {
                 return MimicAsDynamicCaller.GetAsForType(Context.Property.Type)((IPublishedElement)propertyValue);
             }
