@@ -1,3 +1,4 @@
+[![Build status](https://ci.appveyor.com/api/projects/status/4jiwpt2c9v70ma70/branch/master?svg=true)](https://ci.appveyor.com/project/base33/mimic/branch/master)
 # What is Mimic and why would I use it?
 Mimic is a Custom Model content mapper for Umbraco 8 that allows your to map IPublishedContent or ModelsBuilder models to custom class models.  
 
